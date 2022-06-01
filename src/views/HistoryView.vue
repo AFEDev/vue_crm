@@ -5,7 +5,7 @@
   </div>
 
   <div class="history-chart">
-    <canvas></canvas>
+   
   </div>
 
   <section>

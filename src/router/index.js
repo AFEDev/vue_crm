@@ -57,7 +57,8 @@ const router = createRouter({
       meta: {layout: 'empty'},
       component: () => import('../views/RegisterModal.vue')
     },
-  ]
+  ],
+  linkActiveClass: "active",
 });
 
 export default router;
