@@ -6,11 +6,13 @@
 
   <form class="form">
     <div class="input-field" >
+       <label>Select category</label>
       <select>
         <option
         >name cat</option>
+         
       </select>
-      <label>Select category</label>
+     
     </div>
 
     <p>
@@ -43,7 +45,7 @@
           type="number"
       >
       <label for="amount">Amount</label>
-      <span class="helper-text invalid">amount пароль</span>
+      <span class="helper-text invalid">amount pass</span>
     </div>
 
     <div class="input-field">
@@ -53,7 +55,7 @@
       >
       <label for="description">Description</label>
       <span
-            class="helper-text invalid">description пароль</span>
+            class="helper-text invalid">description pass</span>
     </div>
 
     <button class="btn waves-effect waves-light" type="submit">
