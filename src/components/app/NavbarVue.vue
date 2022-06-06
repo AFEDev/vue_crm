@@ -47,8 +47,8 @@ export default {
     dropdown: null
   }),
   methods: {
-    logout() {
-      console.log('Logout');
+    async logout() {
+     await this.$store.dispatch('logout')
       this.$router.push('/login?message=logout')
     }
   },
@@ -56,7 +56,9 @@ export default {
     this.interval = setInterval(() => {
       this.date = new Date()
     })
+    //Initialization of dropdown list (materializecss) Make sure that the data-target attribute matches the id in the <ul> tag. 
     this.dropdown = M.Dropdown.init(this.$refs.dropdown, {
+      //If true, constrainWidth to the size of the dropdown activator.
       constrainWidth: true
     })
   },
