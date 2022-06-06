@@ -1,25 +1,29 @@
 <template>
-    <form class="card auth-card">
+    <form class="card auth-card" @submit.prevent="submitHandler">
   <div class="card-content">
     <span class="card-title">Home bookkeeping</span>
     <div class="input-field">
       <input
           id="email"
           type="text"
-          class="validate"
+          v-model.trim="email"
       >
-      <label for="email">Email</label>
-      <small class="helper-text invalid">Email</small>
+      <label for="email">Email<span class="required">*</span></label>
+      <small class="error" v-for="(error, index) of v$.email.$errors" :key="index">
+          {{error.$message}}
+        </small>
     </div>
-    <div class="input-field">
-      <input
-          id="password"
-          type="password"
-          class="validate"
-      >
-      <label for="password">Password</label>
-      <small class="helper-text invalid">Password</small>
-    </div>
+        <div class="input-field">
+        <label for="email">Password <span class="required">*</span></label>
+        <input
+         id="email" 
+         type="text" 
+         v-model.trim="password"
+         >
+        <small class="error" v-for="(error, index) of v$.password.$errors" :key="index">
+         <br>{{error.$message}}.
+        </small>
+      </div>
   </div>
   <div class="card-action">
     <div>
@@ -34,8 +38,63 @@
 
     <p class="center">
       Don't have an account?
-      <a href="/">Register</a>
+      <router-link to="/register">Register</router-link>
     </p>
   </div>
 </form>
 </template>
+
+<script>
+
+import useVuelidate from "@vuelidate/core";
+import { email, required, minLength, helpers } from "@vuelidate/validators";
+import { containsUppercase, containsLowercase, containsNumber } from '../utils/validators'
+import messages from "@/utils/messages";
+
+
+export default {
+  name: 'loginModal',
+  setup() {
+    return { v$: useVuelidate() };
+  },
+data() {
+    return {
+      email: '',
+      password: ''
+    };
+},
+validations() {
+    return {
+      email: { email, required, },
+      password: {
+    required,
+    minLength: minLength(8), 
+   containsUppercase : helpers.withMessage(' Passwords must contain: a minimum of 1 upper case letter [A-Z] ', containsUppercase),
+   containsLowercase : helpers.withMessage(' Passwords must contain: a minimum of 1 lower case letter [a-z] ', containsLowercase),
+   containsNumber : helpers.withMessage(' Passwords must contain: a minimum of 1 numeric character [0-9] ', containsNumber),
+    }
+  }
+},
+  mounted() {
+    if (messages[this.$route.query.message]) {
+    this.$message(messages[this.$route.query.message])
+    }
+  },
+  methods: {
+   async submitHandler() {
+    this.v$.$touch();
+    if (this.v$.$error) return;
+
+    const formData = {
+      email: this.email,
+      password: this.password
+    }
+
+      try {
+        await this.$store.dispatch('login', formData)
+        this.$router.push('/')
+      } catch (e) {}
+    }
+  },
+}
+</script>
