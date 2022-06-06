@@ -8,9 +8,11 @@ import './registerServiceWorker';
 import 'materialize-css/dist/js/materialize.min';
 
 import  {initializeApp} from 'firebase/app'
-import { getAuth, onAuthStateChanged  } from 'firebase/auth'
+import { getAuth } from 'firebase/auth'
 import 'firebase/database'
 
+
+//firebase inicialization and config
 initializeApp({
   apiKey: "AIzaSyABOkwbA2PjT3TZBF4XFJUwm0SlVdYMH8U",
   authDomain: "home-crm-app.firebaseapp.com",
@@ -27,6 +29,8 @@ getAuth().onAuthStateChanged(() => {
   const app = createApp(App).use(store).use(router).use(useVuelidate).use(messagePlugin)
 
   app.config.globalProperties.$filters = {
+
+//filter to show date or time or data and time 
     dateFilter(value, format = 'date') {
       const options = {}
   

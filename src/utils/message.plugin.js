@@ -5,7 +5,7 @@ export default {
         }
     
         app.config.globalProperties.$message = (text) => {
-        M.toast({html: `[Error]: ${html}` })
+        M.toast({html: `[Error]: ${text}` })
         }
   }
 }
