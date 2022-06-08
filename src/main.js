@@ -19,14 +19,15 @@ initializeApp({
   projectId: "home-crm-app",
   storageBucket: "home-crm-app.appspot.com",
   messagingSenderId: "143032969872",
-  appId: "1:143032969872:web:8fd28dddc26b1c66ff0615"
+  appId: "1:143032969872:web:8fd28dddc26b1c66ff0615",
+  databaseURL: "https://home-crm-app-default-rtdb.europe-west1.firebasedatabase.app/"
 });
 
 let app
 
 getAuth().onAuthStateChanged(() => {
   if (!app) {
-  const app = createApp(App).use(store).use(router).use(useVuelidate).use(messagePlugin)
+  app = createApp(App).use(store).use(router).use(useVuelidate).use(messagePlugin)
 
   app.config.globalProperties.$filters = {
 
@@ -48,8 +49,7 @@ getAuth().onAuthStateChanged(() => {
         return new Intl.DateTimeFormat('default', options).format(new Date(value))
     }
   }
-
   app.mount('#app');
-  }
+  } 
 })
 

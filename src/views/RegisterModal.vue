@@ -112,11 +112,21 @@ export default {
     }
   },
   methods: {
-    submitHandler() {
+  async submitHandler() {
        this.v$.$touch()
         if (this.v$.$error) return;
-        alert('Form is valid')
-       this.$router.push('/')
+
+    const formData = {
+      email: this.email,
+      password: this.password,
+      name: this.name,
+    }
+
+    try {
+      await this.$store.dispatch('register', formData)
+      this.$router.push('/')
+    } catch (e) {}
+
       }
   }
 }
