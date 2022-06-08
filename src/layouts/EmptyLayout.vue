@@ -15,7 +15,7 @@ export default {
   },
   watch: {
     error(fbError) {
-      messages[fbError.code] || 'Something wrong...'
+       this.$message(messages[fbError.code] || 'Something wrong...')
     }
   }
 }
