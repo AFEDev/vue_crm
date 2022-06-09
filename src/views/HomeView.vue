@@ -9,7 +9,8 @@
   </div>
 
   <div class="row">
-
+<home-bill></home-bill>
+<home-currency></home-currency>
 
 
   </div>
@@ -17,9 +18,12 @@
 </template>
 
 <script>
-// @ is an alias to /src
+
+import HomeBill from '@/components/HomeBill.vue';
+import HomeCurrency from '@/components/HomeCurrency.vue';
 
 export default {
+  components: { HomeCurrency, HomeBill },
   name: 'HomeView',
 };
 </script>

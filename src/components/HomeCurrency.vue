@@ -1,5 +1,5 @@
 <template>
-        <div class="col s12 m6 l8">
+    <div class="col s12 m6 l8">
       <div class="card orange darken-3 bill-card">
         <div class="card-content white-text">
           <div class="card-header">
@@ -12,8 +12,7 @@
               <th>Rate of exchange</th>
               <th>Date</th>
             </tr>
-            </thead>
-
+            </thead>        
             <tbody>
             <tr>
               <td>Eu</td>
