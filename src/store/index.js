@@ -1,5 +1,6 @@
 import { createStore } from 'vuex';
 import auth from './auth';
+import info from './info';
 
 
 export default createStore({
@@ -22,6 +23,6 @@ export default createStore({
     error: s => s.error
   },
   modules: {
-    auth
+    auth, info
   },
 });

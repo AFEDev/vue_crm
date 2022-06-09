@@ -3,34 +3,38 @@ import { getDatabase, ref, set } from "firebase/database";
 
 export default {
     actions: {
-        async login({dispatch, commit}, {email, password}) {
+        async login({commit}, {email, password}) {
+            const auth = getAuth()
             try {
-                await signInWithEmailAndPassword(getAuth(), email, password) 
-            } catch (e) {
-                console.log(e);
+                await signInWithEmailAndPassword(auth, email, password)
+                }
+             catch (e) {
                 commit('setError', e)
               throw e
             }
         },
-        async logout() {
+        async logout({commit}) {
             await signOut(getAuth())
+            commit('clearInfo')
         },
         async register({commit},{email, password, name}) {
             try {
                 await createUserWithEmailAndPassword(getAuth(), email, password)
-                .then((userCredential) => {
-                    // Signed in 
-                    const user = userCredential.user; 
+                    const uid = await dispatch('getUid')
                     const db = getDatabase();
-                    set(ref(db, `users/${user.uid}/info`), {
+                    set(ref(db, `users/${uid}/info`), {
                         bill: 1000,
                         name : name
                     })
-        })
-            } catch (e) {
+        }
+            catch (e) {
                commit('setError', e)
                 throw e
             }
         },
+    getUid() {
+        const user = getAuth().currentUser
+        return user ? user.uid : null
     },
+}
 }
