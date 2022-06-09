@@ -92,6 +92,7 @@ validations() {
 
       try {
         await this.$store.dispatch('login', formData)
+        await this.$store.dispatch()
         this.$router.push('/')
       } catch (e) {}
     }
