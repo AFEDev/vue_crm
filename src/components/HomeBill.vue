@@ -3,10 +3,34 @@
       <div class="card light-blue bill-card">
         <div class="card-content white-text">
           <span class="card-title">Balance in currency</span>
-          <p class="currency-line">
-            <span>12.0 Eu</span>
+          <p
+           v-for="cur of currencies"
+           :key="cur"
+           class="currency-line"
+           >
+            <span> {{$filters.currencyFilter(getCurrency(cur), cur)}}</span>
           </p>
         </div>
       </div>
     </div>
 </template>
+
+<script>
+export default {
+  props: ['rates'],
+  data: () => ({
+    currencies: ['EUR', 'USD', 'GBP']
+  }),
+  computed: {
+    base() {
+      console.log(this.$store.getters.info);
+      return this.$store.getters.info.bill
+    }
+  },
+  methods: {
+    getCurrency(currency) {
+      return Math.floor(this.base * this.rates[currency])
+    }
+  },
+}
+</script>

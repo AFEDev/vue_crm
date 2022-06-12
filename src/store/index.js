@@ -18,11 +18,22 @@ export default createStore({
     }
   },
   actions: {
-  },
+    async fetchCurrency() {
+      const key = process.env.VUE_APP_FIXER
+      const myHeaders = new Headers();
+      myHeaders.append("apikey", key);
+        const res = await fetch('https://api.apilayer.com/exchangerates_data/latest?base=EUR&symbols=EUR,GBP,USD', {
+          method: 'GET',
+          redirect: 'follow',
+          headers: myHeaders
+        }); 
+        return await res.json()
+},
+},
   getters: {
     error: s => s.error
   },
   modules: {
     auth, info
   },
-});
+})

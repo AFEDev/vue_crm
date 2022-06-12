@@ -4,12 +4,14 @@ import router from './router';
 import store from './store';
 import useVuelidate from '@vuelidate/core';
 import messagePlugin from "@/utils/message.plugin";
+import LoaderVue from "@/components/app/LoaderVue"
 import './registerServiceWorker';
 import 'materialize-css/dist/js/materialize.min';
 
 import  {initializeApp} from 'firebase/app'
 import { getAuth } from 'firebase/auth'
 import 'firebase/database'
+
 
 
 //firebase inicialization and config
@@ -27,7 +29,7 @@ let app
 
 getAuth().onAuthStateChanged(() => {
   if (!app) {
-  app = createApp(App).use(store).use(router).use(useVuelidate).use(messagePlugin)
+  app = createApp(App).use(store).use(router).use(useVuelidate).use(messagePlugin).use(LoaderVue)
 
   app.config.globalProperties.$filters = {
 
@@ -47,6 +49,12 @@ getAuth().onAuthStateChanged(() => {
           options.second = '2-digit'
         }
         return new Intl.DateTimeFormat('default', options).format(new Date(value))
+    },
+    currencyFilter(value, currency) {
+      return new Intl.NumberFormat('en-EN', {
+        style: 'currency',
+        currency: currency
+      }).format(value)
     }
   }
   app.mount('#app');

@@ -7,9 +7,11 @@
       <i class="material-icons">refresh</i>
     </button>
   </div>
-
-  <div class="row">
-<home-bill></home-bill>
+  <LoaderVue v-if="loading" />
+  <div v-else class="row">
+<home-bill
+  :rates="currency.rates"
+/>
 <home-currency></home-currency>
 
 
@@ -21,9 +23,19 @@
 
 import HomeBill from '@/components/HomeBill.vue';
 import HomeCurrency from '@/components/HomeCurrency.vue';
+import LoaderVue from '@/components/app/LoaderVue.vue';
 
 export default {
-  components: { HomeCurrency, HomeBill },
   name: 'HomeView',
+  data: () => ({
+    loading: true,
+    currency: null
+  }),
+  async mounted() {
+     this.currency = await this.$store.dispatch('fetchCurrency')
+     console.log(this.currency.rates);
+     this.loading = false
+  },
+  components: { HomeCurrency, HomeBill, LoaderVue },
 };
 </script>
