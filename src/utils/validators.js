@@ -17,3 +17,11 @@ export function containsUppercase (value) {
   export function isChecked (value) {
     return value
   }
+
+  export function onlyLettersAndNumbers(value) {
+    return /^[A-Za-z0-9]*$/.test(value);
+  }
+
+  export function onlyNumbers(value) {
+    return /^\d+$/.test(value);
+  }
