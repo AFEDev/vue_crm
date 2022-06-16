@@ -5,18 +5,21 @@
             <h4>Create</h4>
           </div>
 
-          <form>
+          <form @submit.prevent="submitHandler">
             <div class="input-field">
               <input
                 id="name"
                 type="text"
-                v-model="v$.title.$model" 
-                @blur="v$.title.$commit"
-              >
-              <label for="name">Name</label>
-                    <span class="helper-text" v-for="(error, index) of v$.email.$errors" :key="index">
-          {{error.$message}}
-        </span>
+                v-model="title"
+                :class="{invalid: v$.title.$dirty && v$.title.required.$invalid}"
+            >
+            <label for="name">Title</label>
+            <span
+            class="helper-text invalid"
+            v-if="v$.limit.$dirty && v$.title.required.$invalid"
+            >
+            Enter title
+            </span>
             </div>
 
             <div class="input-field">
@@ -24,10 +27,15 @@
                 id="limit"
                 type="number"
 				name="limit"
+                v-model.number="limit"
+                :class="{invalid: v$.limit.$dirty && v$.limit.minValue.$invalid}"
               >
               <label htmlFor="limit">Limit</label>
-              <span class="helper-text invalid">Minimal sum</span>
-							
+              <span 
+                v-if="v$.limit.$dirty && v$.limit.minValue.$invalid"
+                class="helper-text invalid"
+              >
+              Minimal amount is: {{v$.limit.minValue.$params.min}}</span>		
             </div>
 
             <button class="btn waves-effect waves-light" type="submit">
@@ -41,21 +49,43 @@
 
 <script>
 import useVuelidate from "@vuelidate/core";
-import {required, minLength, numeric} from "@vuelidate/validators";
-export default{
-        data: () => ({
+import {required, minValue, numeric} from "@vuelidate/validators";
+
+export default {
+    data: () => ({
         title: '',
-        limit: 1
+        limit: ''
     }),
-    setup () {
-        const rules = {
-        title: {required},
-        limit: {minLength: minLength(1), numeric}
-            }
-        const title = ref(null)
+    setup: () => ({ v$: useVuelidate() }),
+    validations ()  {
         return {
-            v$: useVuelidate(rules, { title }, { $rewardEarly: true }),
+            title: { required },
+            limit: { minValue: minValue(1), numeric }
         }
+    },
+    methods: {
+        async submitHandler() {
+            if (this.v$.$invalid) {
+                this.v$.$touch()
+                return
+            }
+            try {
+            const category = await this.$store.dispatch('createCategory', {
+                title: this.title,
+                limit: this.limit
+            })
+            this.title = ''
+            this.limit = ''
+            this.v$.$reset()
+            this.$message('Category was created')
+            this.$emit('created', category)
+            } catch (e) {
+                console.log('Error???', e);
+            }
+        }
+    },    
+    mounted() {
+        M.updateTextFields()
     },
 }
 </script>
