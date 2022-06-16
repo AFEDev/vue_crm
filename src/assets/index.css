@@ -122,7 +122,8 @@
 
 .page-subtitle h4,
 .page-title {
-    margin-bottom: 2rem
+    margin-bottom: 2rem;
+
 }
 
 .app-loader,
@@ -202,4 +203,8 @@
     display: block;
     margin: -3px 0;
     content: "";
+}
+
+.btn {
+    margin-bottom: 10px;
 }
