@@ -32,10 +32,8 @@ getAuth().onAuthStateChanged(() => {
   if (!app) {
   app = createApp(App).use(store).use(router).use(useVuelidate).use(messagePlugin)
 
-  app.directive('tooltipDirective', tooltipDirective)
+  app.directive('tooltip', tooltipDirective)
   app.component('LoaderVue', LoaderVue)
-
-  console.log(tooltipDirective);
 
   app.config.globalProperties.$filters = {
 

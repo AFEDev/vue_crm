@@ -14,7 +14,7 @@
     </main>
 
     <div class="fixed-action-btn">
-      <router-link class="btn-floating btn-large blue" to="/record">
+      <router-link class="btn-floating btn-large blue" to="/record" v-tooltip="`Create new entry`">
         <i class="large material-icons">add</i>
       </router-link>
     </div>
@@ -27,6 +27,7 @@
 import NavbarVue from '@/components/app/NavbarVue.vue'
 import SidebarVue from '@/components/app/SidebarVue.vue'
 import LoaderVue from '@/components/app/LoaderVue.vue'
+import messages from '@/utils/messages';
 
 export default {
   name: 'main-layout',
@@ -43,6 +44,16 @@ export default {
   components: {
     NavbarVue, SidebarVue, LoaderVue
   },
+   computed: {
+    error() {
+     return this.$store.getters.error
+    }
+  },
+  watch: {
+    error(fbError) {
+       this.$message(messages[fbError.code] || 'Something wrong...')
+    }
+  }
 }
 
 </script>

@@ -15,7 +15,7 @@
           <strong>{{cat.title}}:</strong>
           {{$filters.currencyFilter(cat.spend, 'EUR')}} of {{$filters.currencyFilter(cat.limit, 'EUR')}}
         </p>
-        <div class="progress" v-tooltipDirective="cat.tooltip" >
+        <div class="progress" v-tooltip="cat.tooltip" >
           <div
             class="determinate"
             :class="[cat.progressColor]"
