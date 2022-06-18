@@ -1,4 +1,4 @@
-import { getDatabase, ref, push, get,} from "firebase/database";
+import { getDatabase, ref, push, get, update} from "firebase/database";
 
 export default {
     actions: {
@@ -34,7 +34,19 @@ export default {
                 commit('setError', e)
                 throw e
             }
-        }
+        },
+        async updateCategory ({commit, dispatch}, {title, limit, id}) {
+            try {
+                const uid = await dispatch('getUid')
+                const db = getDatabase()
+                await update(ref(db, `users/${uid}/categories/${id}`), {title, limit})
+            } catch (e) {
+                commit('setError', e)
+                throw e
+            }
+        },
     }
 }
+
+
 

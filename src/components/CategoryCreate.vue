@@ -52,40 +52,40 @@ import useVuelidate from "@vuelidate/core";
 import {required, minValue, numeric} from "@vuelidate/validators";
 
 export default {
-    data: () => ({
-        title: '',
-        limit: ''
-    }),
-    setup: () => ({ v$: useVuelidate() }),
-    validations ()  {
-        return {
-            title: { required },
-            limit: { minValue: minValue(1), numeric }
-        }
-    },
-    methods: {
-        async submitHandler() {
-            if (this.v$.$invalid) {
-                this.v$.$touch()
-                return
-            }
-            try {
-            const category = await this.$store.dispatch('createCategory', {
-                title: this.title,
-                limit: this.limit
-            })
-            this.title = ''
-            this.limit = ''
-            this.v$.$reset()
-            this.$message('Category was created')
-            this.$emit('created', category)
-            } catch (e) {
-                console.log('Error???', e);
-            }
-        }
-    },    
-    mounted() {
-        M.updateTextFields()
-    },
+  data: () => ({
+    title: '',
+    limit: ''
+  }),
+  setup: () => ({ v$: useVuelidate() }),
+  validations ()  {
+    return {
+      title: { required },
+      limit: { minValue: minValue(1), numeric }
+      }
+  },
+  methods: {
+    async submitHandler() {
+      if (this.v$.$invalid) {
+        this.v$.$touch()
+        return
+    }
+      try {
+        const category = await this.$store.dispatch('createCategory', {
+          title: this.title,
+          limit: this.limit
+        })
+          this.title = ''
+          this.limit = ''
+          this.v$.$reset()
+          this.$message('Category was created')
+          this.$emit('created', category)
+      } catch (e) {
+        console.log('Error???', e);
+      }
+    }
+  },    
+  mounted() {
+    M.updateTextFields()
+  },
 }
 </script>
