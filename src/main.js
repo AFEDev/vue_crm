@@ -5,6 +5,7 @@ import store from './store';
 import useVuelidate from '@vuelidate/core';
 import messagePlugin from "@/utils/message.plugin";
 import LoaderVue from "@/components/app/LoaderVue"
+import tooltipDirective from './directives/tooltip.directive';
 import './registerServiceWorker';
 import 'materialize-css/dist/js/materialize.min';
 
@@ -29,7 +30,12 @@ let app
 
 getAuth().onAuthStateChanged(() => {
   if (!app) {
-  app = createApp(App).use(store).use(router).use(useVuelidate).use(messagePlugin).use(LoaderVue)
+  app = createApp(App).use(store).use(router).use(useVuelidate).use(messagePlugin)
+
+  app.directive('tooltipDirective', tooltipDirective)
+  app.component('LoaderVue', LoaderVue)
+
+  console.log(tooltipDirective);
 
   app.config.globalProperties.$filters = {
 
