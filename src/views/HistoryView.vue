@@ -5,46 +5,48 @@
   </div>
 
   <div class="history-chart">
-   
   </div>
 
-  <section>
-    <table>
-      <thead>
-      <tr>
-        <th>#</th>
-        <th>Sum</th>
-        <th>Date</th>
-        <th>Category</th>
-        <th>Type</th>
-        <th>Open</th>
-      </tr>
-      </thead>
+  <LoaderVue v-if="loading" />
 
-      <tbody>
-      <tr>
-        <td>1</td>
-        <td>1212</td>
-        <td>12.12.32</td>
-        <td>name</td>
-        <td>
-          <span class="white-text badge red">Expenses</span>
-        </td>
-        <td>
-          <button class="btn-small btn">
-            <i class="material-icons">open_in_new</i>
-          </button>
-        </td>
-      </tr>
-      </tbody>
-    </table>
+  <p class="center" v-else-if="!records.length">There are no history.
+  <router-link to="/record">Create first entry!</router-link>
+  </p>
+
+  <section v-else>
+    <history-table :records="records" />
   </section>
 </div>
 
 </template>
 
 <script>
+import HistoryTable from '@/components/HistoryTable.vue'
+import LoaderVue from '@/components/app/LoaderVue.vue'
+
 export default {
     name: "HistoryView",
+    data: () => ({
+      loading: true,
+      records: [],
+      categories: [],
+    }),
+    async mounted() {
+      const records = await this.$store.dispatch('fetchRecords')
+      this.categories = await this.$store.dispatch('fetchCategories')
+      this.records = records.map(record => {
+        return {
+          ...record,
+          categoryName: this.categories.find(c => c.id === record.categoryId).title,
+          typeClass: record.type === 'income' ? 'green' : 'red',
+          typeText: record.type === 'income' ? 'Income' : 'Outcome',
+        }
+      })
+      this.loading = false
+    },
+    components: {
+    HistoryTable,
+    LoaderVue
+}
 }
 </script>

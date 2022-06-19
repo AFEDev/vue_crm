@@ -36,8 +36,8 @@ const router = createRouter({
       component: () => import('../views/HistoryView.vue'),
     },
     {
-      path: '/detail-record',
-      name: 'detail-record',
+      path: '/detail/:id',
+      name: 'detail',
       meta: { layout: 'main', auth:true },
       component: () => import('../views/DetailRecordView.vue'),
     },
