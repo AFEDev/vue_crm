@@ -3,7 +3,7 @@ import _ from "lodash"
 export default {
     data() {
         return {
-            page: 1,
+            page: +this.$route.query.page || 1,
             pageSize: 5,
             pageCount: 0,
             allItems: [],
@@ -13,8 +13,12 @@ export default {
     methods: {
         setupPagination(allItems) {
             this.allItems = _.chunk(allItems, this.pageSize)
-            this.pageCount = this.allItems.length-1
+            this.pageCount = this.allItems.length
             this.items = this.allItems[this.page - 1] || this.allItems[0]
-        }
+        },
+        PageChangeHandler (pageNum) {
+            this.$router.push(`${this.$route.path}?page=${pageNum}`)
+            this.items = this.allItems[pageNum - 1] || this.allItems[0]
+          }
     }
 }
