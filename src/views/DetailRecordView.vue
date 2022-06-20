@@ -1,25 +1,57 @@
 <template>
     <div>
-  <div>
-    <div class="breadcrumb-wrap">
-      <a href="/history" class="breadcrumb">History</a>
-      <a class="breadcrumb">
-        Expenses
+      <loader-vue v-if="loading" />
+      <div v-else-if="record">
+      <div class="breadcrumb-wrap">
+      <router-link to="/history" class="breadcrumb">History</router-link>
+      <a @click.prevent class="breadcrumb">
+        {{record.type === 'income' ? 'Income' : 'Outcome'}}
       </a>
     </div>
     <div class="row">
       <div class="col s12 m6">
-        <div class="card red">
+        <div class="card" :class="{
+          'red' : record.type === 'outcome',
+          'green' : record.type === 'income'
+        }">
           <div class="card-content white-text">
-            <p>Description:</p>
-            <p>Sum:</p>
-            <p>Category:</p>
+            <p>Description: {{record.description}}</p>
+            <p>Sum: {{$filters.currencyFilter(record.amount, 'EUR')}}</p>
+            <p>Category: {{record.categoryName}}</p>
 
-            <small>12.12.12</small>
+            <small>{{$filters.dateFilter(new Date(record.date), 'datetime')}}</small>
           </div>
         </div>
       </div>
     </div>
   </div>
+  <p class="center" v-else>Entry not found</p>
 </div>
 </template>
+
+
+<script>
+import LoaderVue from '@/components/app/LoaderVue.vue'
+
+
+export default {
+  components: { LoaderVue },
+  name: 'DetailRecord',
+  data: () => ({
+    record: null,
+    loading: true
+  }),
+  async mounted() {
+    const id = this.$route.params.id 
+    const record = await this.$store.dispatch('fetchRecordById', id)
+    const category = await this.$store.dispatch('fetchCategoryById', record.categoryId)
+
+    this.record = {
+      ...record,
+      categoryName: category.title
+    }
+
+    this.loading = false
+  }
+}
+</script>

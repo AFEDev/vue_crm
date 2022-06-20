@@ -7,18 +7,18 @@ export default {
                 const uid = await dispatch('getUid')
                 const db = getDatabase()
                 const categories = await (await get(ref(db, `users/${uid}/categories`))).val() || {}
-
-                // const cats = []
-                // Object.keys(categories).forEach(key => {
-                //     cats.push({
-                //         title: categories[key].title,
-                //         limit: categories[key].limit,
-                //         id: key
-                //     })
-                // })
-                // return cats
-
                 return Object.keys(categories).map(key => ({...categories[key], id: key}) )
+            } catch (e) {
+                commit('setError', e)
+                throw e
+            }
+        },
+        async fetchCategoryById ({commit, dispatch}, id) {
+            try {
+                const uid = await dispatch('getUid')
+                const db = getDatabase()
+                const category = await (await get(ref(db, `users/${uid}/categories/${id}`))).val() || {}
+                return {...category, id}
             } catch (e) {
                 commit('setError', e)
                 throw e

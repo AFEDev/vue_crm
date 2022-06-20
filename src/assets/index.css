@@ -208,3 +208,7 @@
 .btn {
     margin-bottom: 10px;
 }
+
+.pagination li a {
+    cursor: pointer
+}
