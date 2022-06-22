@@ -1,36 +1,31 @@
 <template>
-    <div class="col s12 m6 l4">
-      <div class="card light-blue bill-card">
-        <div class="card-content white-text">
-          <span class="card-title">Balance in currency</span>
-          <p
-           v-for="cur of currencies"
-           :key="cur"
-           class="currency-line"
-           >
-            <span> {{$filters.currencyFilter(getCurrency(cur), cur)}}</span>
-          </p>
-        </div>
+  <div class="col s12 m6 l4">
+    <div class="card light-blue bill-card">
+      <div class="card-content white-text">
+        <span class="card-title">{{ $filters.localizeFilter("Balance_inCurrency") }}</span>
+        <p v-for="cur of currencies" :key="cur" class="currency-line">
+          <span> {{ $filters.currencyFilter(getCurrency(cur), cur) }}</span>
+        </p>
       </div>
     </div>
+  </div>
 </template>
 
 <script>
 export default {
-  props: ['rates'],
+  props: ["rates"],
   data: () => ({
-    currencies: ['EUR', 'USD', 'GBP']
+    currencies: ["EUR", "USD", "GBP"],
   }),
   computed: {
     base() {
-      console.log(this.$store.getters.info);
-      return this.$store.getters.info.bill
-    }
+      return this.$store.getters.info.bill;
+    },
   },
   methods: {
     getCurrency(currency) {
-      return Math.floor(this.base * this.rates[currency])
-    }
+      return Math.floor(this.base * this.rates[currency]);
+    },
   },
-}
+};
 </script>

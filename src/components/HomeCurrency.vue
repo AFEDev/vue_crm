@@ -1,37 +1,36 @@
 <template>
-    <div class="col s12 m6 l8">
-      <div class="card orange darken-3 bill-card">
-        <div class="card-content white-text">
-          <div class="card-header">
-            <span class="card-title">Currency today</span>
-          </div>
-          <table>
-            <thead>
-            <tr>
-              <th>Currency</th>
-              <th>Rate of exchange</th>
-              <th>Date</th>
-            </tr>
-            </thead>        
-            <tbody>
-            <tr v-for="cur of currencies" :key="cur">
-              <td>{{cur}}</td>
-              <td>{{rates[cur].toFixed(3)}}</td>
-              <td>{{date}}</td>
-            </tr>
-            </tbody>
-          </table>
+  <div class="col s12 m6 l8">
+    <div class="card orange darken-3 bill-card">
+      <div class="card-content white-text">
+        <div class="card-header">
+          <span class="card-title">{{ $filters.localizeFilter("Cur_today") }}</span>
         </div>
+        <table>
+          <thead>
+            <tr>
+              <th>{{ $filters.localizeFilter("Currency") }}</th>
+              <th>{{ $filters.localizeFilter("RateOfExchange") }}</th>
+              <th>{{ $filters.localizeFilter("Date") }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="cur of currencies" :key="cur">
+              <td>{{ cur }}</td>
+              <td>{{ rates[cur].toFixed(3) }}</td>
+              <td>{{ date }}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
+  </div>
 </template>
 
 <script>
 export default {
-  props: ['rates', 'date'],
+  props: ["rates", "date"],
   data: () => ({
-    currencies: [ 'EUR','USD', 'GBP']
-  })
-}
-
+    currencies: ["EUR", "USD", "GBP"],
+  }),
+};
 </script>

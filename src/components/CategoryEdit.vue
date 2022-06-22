@@ -2,15 +2,15 @@
   <div class="col s12 m6">
     <div>
       <div class="page-subtitle">
-        <h4>Edit</h4>
+        <h4>{{ $filters.localizeFilter("Edit") }}</h4>
       </div>
 
       <form @submit.prevent="submitHandler">
         <div class="input-field">
           <select ref="select" v-model="current">
-            <option v-for="c of categories" :key="c.id" :value="c.id">{{c.title}}</option>
+            <option v-for="c of categories" :key="c.id" :value="c.id">{{ c.title }}</option>
           </select>
-          <label>{{'SelectCategory'}}</label>
+          <label>{{ $filters.localizeFilter("Select_cat") }}</label>
         </div>
 
         <div class="input-field">
@@ -18,14 +18,11 @@
             id="name"
             type="text"
             v-model="title"
-            :class="{invalid: v$.title.$dirty && v$.title.required.$invalid}"
-          >
-          <label for="name">Title</label>
-          <span
-            class="helper-text invalid"
-            v-if="v$.limit.$dirty && v$.title.required.$invalid"
-          >
-          Enter title
+            :class="{ invalid: v$.title.$dirty && v$.title.required.$invalid }"
+          />
+          <label for="name">{{ $filters.localizeFilter("Title") }}</label>
+          <span class="helper-text invalid" v-if="v$.limit.$dirty && v$.title.required.$invalid">
+            Enter title
           </span>
         </div>
 
@@ -35,96 +32,93 @@
             type="number"
             name="limit"
             v-model.number="limit"
-            :class="{invalid: v$.limit.$dirty && v$.limit.minValue.$invalid}"
+            :class="{ invalid: v$.limit.$dirty && v$.limit.minValue.$invalid }"
+          />
+          <label htmlFor="limit">{{ $filters.localizeFilter("Limit") }}</label>
+          <span v-if="v$.limit.$dirty && v$.limit.minValue.$invalid" class="helper-text invalid">
+            {{ $filters.localizeFilter("Messaga_MinimalAmount") }}
+            {{ v$.limit.minValue.$params.min }}</span
           >
-          <label htmlFor="limit">Limit</label>
-          <span 
-            v-if="v$.limit.$dirty && v$.limit.minValue.$invalid"
-            class="helper-text invalid"
+          <span v-if="v$.limit.$dirty && v$.limit.required.$invalid" class="helper-text invalid">
+            {{ $filters.localizeFilter("Message_EnterName") }}
+            {{ v$.limit.minValue.$params.min }}</span
           >
-            Minimal amount is: {{v$.limit.minValue.$params.min}}</span>
-          <span 
-            v-if="v$.limit.$dirty && v$.limit.required.$invalid"
-            class="helper-text invalid"
-          >
-            Minimal amount is: {{v$.limit.minValue.$params.min}}</span>		
         </div>
 
-            <button class="btn waves-effect waves-light" type="submit">
-              Update
-              <i class="material-icons right">send</i>
-            </button>
-          </form>
-        </div>
+        <button class="btn waves-effect waves-light" type="submit">
+          {{ $filters.localizeFilter("Update") }}
+          <i class="material-icons right">send</i>
+        </button>
+      </form>
     </div>
+  </div>
 </template>
 
 <script>
-
 import useVuelidate from "@vuelidate/core";
-import {required, minValue, numeric} from "@vuelidate/validators";
+import { required, minValue, numeric } from "@vuelidate/validators";
 
 export default {
   props: {
     categories: {
       type: Array,
       required: true,
-    }
+    },
   },
   data: () => ({
     select: null,
-    title: '',
-    limit: '',
+    title: "",
+    limit: "",
     current: null,
   }),
   setup: () => ({ v$: useVuelidate() }),
-  validations ()  {
+  validations() {
     return {
       title: { required },
-      limit: { minValue: minValue(1), numeric, required }
-    }
+      limit: { minValue: minValue(1), numeric, required },
+    };
   },
   watch: {
     current(catId) {
-      const {title, limit} = this.categories.find(c => c.id === catId)
-        this.title = title
-        this.limit = limit
-    }
+      const { title, limit } = this.categories.find((c) => c.id === catId);
+      this.title = title;
+      this.limit = limit;
+    },
   },
   created() {
-    const {id, title, limit} = this.categories[0]
-    this.current = id
-    this.title = title
-    this.limit = limit
+    const { id, title, limit } = this.categories[0];
+    this.current = id;
+    this.title = title;
+    this.limit = limit;
   },
   async mounted() {
-    this.select = M.FormSelect.init(this.$refs.select)
-    M.updateTextFields()
+    this.select = M.FormSelect.init(this.$refs.select);
+    M.updateTextFields();
   },
   unmounted() {
     if (this.select && this.select.destroy) {
-    this.select.destroy()
+      this.select.destroy();
     }
   },
   methods: {
     async submitHandler() {
       if (this.v$.$invalid) {
-        this.v$.$touch()
-        return
+        this.v$.$touch();
+        return;
       }
       try {
         const categoryData = {
           id: this.current,
           title: this.title,
-          limit: this.limit
-        }
-        await this.$store.dispatch('updateCategory', categoryData )
-        this.$message('Category updated')
-        this.$emit('updated', categoryData)
+          limit: this.limit,
+        };
+        await this.$store.dispatch("updateCategory", categoryData);
+        this.$message("Category updated");
+        this.$emit("updated", categoryData);
       } catch (e) {
-        this.$eMessage('Something wrong')
+        this.$eMessage("Something wrong");
       }
     },
   },
-}
+};
 </script>
