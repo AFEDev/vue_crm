@@ -13,7 +13,7 @@
 
     <section v-else>
       <div v-for="cat of categories" :key="cat.id">
-        <p>
+        <p class="flow-text">
           <strong>{{ cat.title }}:</strong>
           {{ $filters.currencyFilter(cat.spend, "EUR") }} of
           {{ $filters.currencyFilter(cat.limit, "EUR") }}

@@ -6,10 +6,16 @@
 
     <div class="row">
       <div class="history-chart col s12 m6">
+        <div class="center">
+          <strong>{{ $filters.localizeFilter("Income") }}</strong>
+        </div>
         <Pie :chart-options="chartOptions" :chart-data="chartData" />
       </div>
 
       <div class="history-chart col s12 m6">
+        <div class="center">
+          <strong>{{ $filters.localizeFilter("Outcome") }}</strong>
+        </div>
         <Pie :chart-options="chartOptions" :chart-data="incomeChartData" />
       </div>
     </div>
@@ -21,7 +27,7 @@
     </p>
 
     <section v-else>
-      <history-table :records="items" />
+      <history-table :records="items" key="" />
 
       <PaginateVue
         v-model="page"
@@ -70,7 +76,7 @@ export default {
       labels: [],
       datasets: [
         {
-          label: "Outcomes",
+          label: "Incomes",
           backgroundColor: ["#DAF7A6", "#F4D977", "#B6D4FF", "#FFB6BB"],
           data: [],
         },
@@ -97,10 +103,12 @@ export default {
   },
   methods: {
     setup(categories) {
+      let i = 1;
       this.setupPagination(
         this.records.map((record) => {
           return {
             ...record,
+            index: i++,
             categoryName: categories.find((c) => c.id === record.categoryId).title,
             typeClass: record.type === "income" ? "green" : "red",
             typeText:

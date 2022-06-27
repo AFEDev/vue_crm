@@ -58,6 +58,8 @@
           type="text"
           v-model="description"
           :class="{ invalid: v$.description.$dirty && v$.description.required.$invalid }"
+          data-length="20"
+          ref="countSymbols"
         />
         <label for="description">{{ $filters.localizeFilter("Description") }}</label>
         <span
@@ -96,6 +98,7 @@ export default {
     type: "income",
     amount: "",
     description: "",
+    countSymbols: "",
   }),
   setup: () => ({ v$: useVuelidate() }),
   async mounted() {

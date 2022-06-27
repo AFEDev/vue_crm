@@ -3,7 +3,7 @@
     <div class="page-title">
       <h3>{{ $filters.localizeFilter("Category") }}</h3>
     </div>
-    <section>
+    <section class="flow-text">
       <LoaderVue v-if="loading" />
       <div class="row" v-else>
         <category-create @created="addNewCategory" />

@@ -6,13 +6,13 @@
     <form class="form" @submit.prevent="submitHandler">
       <div class="input-field">
         <input id="name" type="text" v-model.trim="name" />
-        <label for="name">{{ $filters.localizeFilter("Name") }}</label>
+        <label for="name" class="flow-text">{{ $filters.localizeFilter("Name") }}</label>
         <small class="error" v-for="error of v$.name.$errors" :key="error.$uid">{{
           error.$message
         }}</small>
       </div>
       <div class="switch">
-        <label>
+        <label class="flow-text">
           Lietuviškai
           <input type="checkbox" v-model="isEnLocale" />
           <span class="lever"></span>

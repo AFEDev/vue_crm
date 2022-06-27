@@ -1,5 +1,5 @@
 <template>
-  <table>
+  <table class="responsive-table">
     <thead>
       <tr>
         <th>#</th>
@@ -12,8 +12,8 @@
     </thead>
 
     <tbody>
-      <tr v-for="(record, idx) of records" :key="record.id">
-        <td>{{ idx + 1 }}</td>
+      <tr v-for="record of records" :key="record.id">
+        <td>{{ record.index }}.</td>
         <td>{{ $filters.currencyFilter(record.amount, "EUR") }}</td>
         <td>{{ $filters.dateFilter(new Date(record.date), "datetime") }}</td>
         <td>{{ record.categoryName }}</td>
