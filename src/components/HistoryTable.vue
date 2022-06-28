@@ -3,8 +3,14 @@
     <thead>
       <tr>
         <th>#</th>
-        <th>{{ $filters.localizeFilter("Sum") }}</th>
-        <th>{{ $filters.localizeFilter("Date") }}</th>
+        <th>
+          {{ $filters.localizeFilter("Sum")
+          }}<i class="material-icons" id="sortBySum">import_export</i>
+        </th>
+        <th>
+          {{ $filters.localizeFilter("Date")
+          }}<i class="material-icons" id="sortByDate">import_export</i>
+        </th>
         <th>{{ $filters.localizeFilter("Category") }}</th>
         <th>{{ $filters.localizeFilter("Type") }}</th>
         <th>{{ $filters.localizeFilter("Open") }}</th>
@@ -46,3 +52,10 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+th {
+  vertical-align: auto;
+}
+</style>
+>

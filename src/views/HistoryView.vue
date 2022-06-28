@@ -7,14 +7,14 @@
     <div class="row">
       <div class="history-chart col s12 m6">
         <div class="center">
-          <strong>{{ $filters.localizeFilter("Income") }}</strong>
+          <strong>{{ $filters.localizeFilter("Outcome") }}</strong>
         </div>
         <Pie :chart-options="chartOptions" :chart-data="chartData" />
       </div>
 
       <div class="history-chart col s12 m6">
         <div class="center">
-          <strong>{{ $filters.localizeFilter("Outcome") }}</strong>
+          <strong>{{ $filters.localizeFilter("Income") }}</strong>
         </div>
         <Pie :chart-options="chartOptions" :chart-data="incomeChartData" />
       </div>
